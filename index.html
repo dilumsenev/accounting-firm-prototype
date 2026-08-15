@@ -1163,10 +1163,32 @@
     }
 
     /* Chat Widget */
-    .chat-fab {
+    .chat-launcher {
       position: fixed;
-      bottom: 24px;
       right: 24px;
+      bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1001;
+      touch-action: none;
+    }
+    .chat-drag-handle {
+      width: 18px;
+      height: 34px;
+      border: 0;
+      padding: 0;
+      background-image: radial-gradient(circle, var(--text-secondary) 2px, transparent 2.5px);
+      background-size: 9px 9px;
+      background-position: center;
+      cursor: grab;
+      opacity: 0.7;
+    }
+    .chat-drag-handle:active { cursor: grabbing; }
+    .chat-fab {
+      position: relative;
+      width: 60px;
+      height: 60px;
       width: 60px;
       height: 60px;
       border-radius: 50%;
@@ -1260,6 +1282,11 @@
       color: var(--text-secondary);
       text-align: center;
       margin-top: 12px;
+    }
+    @media (max-width: 1023px) {
+      .chat-drag-handle { display: none; }
+      .chat-launcher { right: 16px; bottom: 16px; }
+      .chat-widget { right: 16px; bottom: 92px; width: min(360px, calc(100vw - 32px)); }
     }
   </style>
 </head>
@@ -1921,18 +1948,76 @@
       }
     }
 
-    // Chat Widget Toggle
-    const chatFab = document.getElementById('chat-fab');
-    const chatWidget = document.getElementById('chat-widget');
-    const chatClose = document.getElementById('chat-close');
-    if (chatFab && chatWidget && chatClose) {
-      chatFab.addEventListener('click', () => {
-        chatWidget.classList.add('active');
+  // Chat Widget Toggle and desktop drag behavior
+  const chatFab = document.getElementById('chat-fab');
+  const chatWidget = document.getElementById('chat-widget');
+  const chatClose = document.getElementById('chat-close');
+  const chatLauncher = document.getElementById('chat-launcher');
+  const chatHandle = document.getElementById('chat-drag-handle');
+  let chatIsDragging = false;
+  let chatMoved = false;
+  let chatStartX = 0;
+  let chatStartY = 0;
+  let launcherStartLeft = 0;
+  let launcherStartTop = 0;
+
+  if (chatFab && chatWidget && chatClose && chatLauncher) {
+    const positionChatWidget = () => {
+      if (window.matchMedia('(max-width: 1023px)').matches) {
+        chatWidget.style.left = '';
+        chatWidget.style.top = '';
+        chatWidget.style.right = '';
+        return;
+      }
+      const launcherRect = chatLauncher.getBoundingClientRect();
+      const panelWidth = Math.min(360, window.innerWidth - 32);
+      chatWidget.style.left = `${Math.max(16, launcherRect.right - panelWidth)}px`;
+      chatWidget.style.top = `${Math.max(16, launcherRect.top - chatWidget.offsetHeight - 16)}px`;
+      chatWidget.style.right = 'auto';
+      chatWidget.style.bottom = 'auto';
+    };
+    const setChatOpen = (open) => {
+      if (open) positionChatWidget();
+      chatWidget.classList.toggle('active', open);
+      chatFab.setAttribute('aria-expanded', String(open));
+      chatFab.setAttribute('aria-label', open ? 'Close chat' : 'Open chat');
+    };
+    chatFab.addEventListener('click', () => {
+      if (chatMoved) { chatMoved = false; return; }
+      setChatOpen(!chatWidget.classList.contains('active'));
+    });
+    chatClose.addEventListener('click', () => setChatOpen(false));
+
+    if (chatHandle) {
+      chatHandle.addEventListener('pointerdown', (event) => {
+        if (window.matchMedia('(max-width: 1023px)').matches) return;
+        chatIsDragging = true;
+        chatMoved = false;
+        chatStartX = event.clientX;
+        chatStartY = event.clientY;
+        const rect = chatLauncher.getBoundingClientRect();
+        launcherStartLeft = rect.left;
+        launcherStartTop = rect.top;
+        chatLauncher.style.left = `${rect.left}px`;
+        chatLauncher.style.top = `${rect.top}px`;
+        chatLauncher.style.right = 'auto';
+        chatLauncher.style.bottom = 'auto';
+        chatHandle.setPointerCapture(event.pointerId);
       });
-      chatClose.addEventListener('click', () => {
-        chatWidget.classList.remove('active');
+      chatHandle.addEventListener('pointermove', (event) => {
+        if (!chatIsDragging) return;
+        const deltaX = event.clientX - chatStartX;
+        const deltaY = event.clientY - chatStartY;
+        if (Math.abs(deltaX) + Math.abs(deltaY) > 4) chatMoved = true;
+        const maxLeft = window.innerWidth - chatLauncher.offsetWidth - 12;
+        const maxTop = window.innerHeight - chatLauncher.offsetHeight - 12;
+        chatLauncher.style.left = `${Math.max(12, Math.min(maxLeft, launcherStartLeft + deltaX))}px`;
+        chatLauncher.style.top = `${Math.max(12, Math.min(maxTop, launcherStartTop + deltaY))}px`;
       });
+      chatHandle.addEventListener('pointerup', () => { chatIsDragging = false; });
+      chatHandle.addEventListener('pointercancel', () => { chatIsDragging = false; });
     }
+  }
 
     // Contact form — prototype only, prevent submission
     const contactForm = document.querySelector('.contact-form');
@@ -1962,8 +2047,11 @@
       <div class="chat-disclaimer">Spam protection enabled; AI-generated content may be inaccurate.</div>
     </div>
   </div>
-  <button class="chat-fab" id="chat-fab" aria-label="Open chat">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-  </button>
+  <div class="chat-launcher" id="chat-launcher">
+    <button class="chat-drag-handle" id="chat-drag-handle" aria-label="Move chat button" title="Drag to move chat"></button>
+    <button class="chat-fab" id="chat-fab" aria-label="Open chat" aria-expanded="false" aria-controls="chat-widget">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+    </button>
+  </div>
 </body>
 </html>

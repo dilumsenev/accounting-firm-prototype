@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ledger & Co. CPA | Austin Small Business CPA</title>
+  <meta name="description" content="Ledger & Co. works with Austin small business owners year-round on tax strategy, clean books, and financial decisions.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* CSS Variables */
+    :root {
+      --bg-color: #F7F5F0;
+      --surface-color: #FFFFFF;
+      --brand-primary: #1E3048;
+      --brand-accent: #9E7C3F;
+      --text-primary: #2C2C2C;
+      --text-secondary: #6B6B6B;
+      --border-color: #E2DECE;
+      
+      --font-display: 'DM Serif Display', serif;
+      --font-ui: 'Inter', sans-serif;
+      
+      --section-padding-desktop: 96px;
+      --section-padding-mobile: 64px;
+      --max-width: 1080px;
+      --transition: 0.18s ease;
+    }
+
+    /* Reset & Base */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: var(--font-ui);
+      background-color: var(--bg-color);
+      color: var(--text-primary);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    /* 3.3: Increase typography contrast — heavier display, lighter body */
+    h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 400; }
+    /* Body paragraphs use Inter 400, secondary text nudged lighter */
+    p, li { font-weight: 400; }
+    .quote-text, .problem-body, .service-body, .price-desc, .faq-panel-inner,
+    .comp-list li, .pricing-note-text {
+      font-weight: 400;
+      color: var(--text-secondary);
+    }
+    /* Strengthen eyebrows and labels */
+    .eyebrow, .service-num, .comp-label { font-weight: 700; letter-spacing: 0.14em; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    button { font-family: var(--font-ui); cursor: pointer; border: none; background: none; }
+
+    /* Layout Utilities */
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .section { padding: var(--section-padding-desktop) 0; }
+    @media (max-width: 768px) {
+      .section { padding: var(--section-padding-mobile) 0; }
+    }
+
+    /* Typography */
+    .eyebrow {
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--brand-accent);
+      margin-bottom: 16px;
+      display: block;
+    }
+    .headline {
+      font-size: clamp(36px, 6vw, 62px);
+      letter-spacing: -1px;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+    .section-headline {
+      font-size: clamp(32px, 5vw, 44px);
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      margin-bottom: 48px;
+      color: var(--brand-primary);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 15px;
+      border-radius: 40px;
+      padding: 12px 24px;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    /* 2.4: Primary button glow sweep animation */
+    .btn-primary {
+      background-color: var(--brand-accent);
+      color: var(--surface-color);
+    }
+    .btn-brand {
+      background-color: var(--brand-primary);
+      color: var(--surface-color);
+    }
+    .btn-brand:hover {
+      background-color: #162438;
+      box-shadow: 0 0 18px rgba(30,48,72,0.45);
+    }
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.18) 50%, transparent 100%);
+      transform: translateX(-100%);
+      transition: transform 0.45s ease;
+    }
+    .btn-primary:hover {
+      background-color: #8b6b33;
+      box-shadow: 0 0 18px rgba(158,124,63,0.45);
+    }
+    .btn-primary:hover::after {
+      transform: translateX(100%);
+    }
+    .btn-ghost {
+      border: 1px solid var(--brand-primary);
+      color: var(--brand-primary);
+    }
+    .btn-ghost:hover {
+      background-color: rgba(30, 48, 72, 0.05);
+    }
+    .btn-ghost-light {
+      border: 1px solid rgba(247,245,240,0.3);
+      color: #F7F5F0;
+    }
+    .btn-ghost-light:hover {
+      background-color: rgba(247,245,240,0.1);
+    }
+
+    /* 1. Nav — 2.5: Glassmorphism */
+    .nav {
+      position: sticky;
+      top: 0;
+      height: 68px;
+      background-color: rgba(255,255,255,0.72);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(226,222,206,0.6);
+      z-index: 100;
+      transition: box-shadow var(--transition), background-color var(--transition);
+    }
+    .nav.scrolled {
+      background-color: rgba(255,255,255,0.88);
+      box-shadow: 0 2px 20px rgba(30,48,72,0.1);
+    }
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 100%;
+    }
+    .logo {
+      font-family: var(--font-display);
+      font-size: 20px;
+      color: var(--brand-primary);
+    }
+    .logo .amp { color: var(--brand-accent); }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 24px;
+    }
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      transition: color var(--transition);
+    }
+    .nav-links a:hover { color: var(--brand-accent); }
+    .phone {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--brand-primary);
+    }
+    .hamburger { display: none; }
+    
+    @media (max-width: 850px) {
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 68px;
+        left: 0;
+        right: 0;
+        background: var(--surface-color);
+        flex-direction: column;
+        padding: 24px;
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      }
+      .nav-links.active { display: flex; }
+      .hamburger {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 8px;
+      }
+      .hamburger span {
+        width: 20px;
+        height: 2px;
+        background: var(--brand-primary);
+      }
+    }
+
+    /* 2. Hero */
+    .hero {
+      background-color: var(--brand-primary);
+      /* 3.1: Deep radial gradient for depth */
+      background-image:
+        radial-gradient(ellipse 80% 60% at 20% 120%, rgba(158,124,63,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 80% -10%, rgba(10,20,40,0.7) 0%, transparent 55%);
+      color: var(--surface-color);
+      padding: 100px 0 96px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* 3.2: CSS noise texture overlay for dark sections */
+    .hero::before, .pricing::before, .footer::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+    /* Ensure content sits above the texture */
+    .hero .container, .pricing .container, .footer-container { position: relative; z-index: 1; }
+    /* 2.2: Dynamic background circles with slow rotation */
+    @keyframes slowSpin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    .hero-bg-circles {
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 600px;
+      height: 600px;
+      pointer-events: none;
+      animation: slowSpin 40s linear infinite;
+      transform-origin: center center;
+    }
+    .hero-bg-circles::before, .hero-bg-circles::after {
+      content: '';
+      position: absolute;
+      border: 1px solid rgba(158,124,63,0.15);
+      border-radius: 50%;
+    }
+    .hero-bg-circles::before {
+      width: 400px;
+      height: 400px;
+      top: 100px;
+      right: 100px;
+    }
+    .hero-bg-circles::after {
+      width: 600px;
+      height: 600px;
+      top: 0;
+      right: 0;
+    }
+    .hero .headline { max-width: 720px; color: #FFFFFF; }
+    .hero .sub-line {
+      font-size: 19px;
+      color: rgba(247,245,240,0.72);
+      max-width: 520px;
+      margin-top: 22px;
+      margin-bottom: 36px;
+    }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+    .hero-reassurance {
+      font-size: 13px;
+      color: rgba(247,245,240,0.5);
+    }
+    .hero-stats {
+      margin-top: 64px;
+      padding-top: 48px;
+      border-top: 1px solid rgba(226,222,206,0.15);
+      display: flex;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+    .stat { display: flex; flex-direction: column; gap: 4px; }
+    .stat-val { font-family: var(--font-display); font-size: 36px; color: #FFFFFF; line-height: 1; letter-spacing: -0.5px; }
+    .stat-label { font-size: 13px; color: rgba(247,245,240,0.55); max-width: 140px; line-height: 1.4; }
+
+    /* 3. Social Proof */
+    .social-proof { background-color: var(--surface-color); border-bottom: 1px solid var(--border-color); }
+    .proof-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .proof-card {
+      background-color: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+    }
+    .proof-card.featured {
+      background-color: var(--surface-color);
+      border-color: var(--brand-accent);
+    }
+    .quote-mark {
+      font-family: var(--font-display);
+      font-size: 48px;
+      color: var(--brand-accent);
+      opacity: 0.4;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .quote-text { font-size: 16px; color: var(--text-primary); margin-bottom: 24px; flex-grow: 1; }
+    .quote-outcome {
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--brand-primary);
+      border-top: 1px solid var(--border-color);
+      padding-top: 16px;
+      margin-bottom: 16px;
+    }
+    /* Testimonial headshot styles */
+    .quote-footer { display: flex; align-items: center; gap: 12px; }
+    .quote-headshot {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 2px solid var(--border-color);
+    }
+    .proof-card.featured .quote-headshot { border-color: var(--brand-accent); }
+    .quote-headshot-placeholder {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background-color: var(--brand-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-family: var(--font-display);
+      font-size: 18px;
+      color: rgba(247,245,240,0.8);
+      border: 2px solid var(--border-color);
+    }
+    .quote-meta { display: flex; flex-direction: column; }
+    .quote-author { font-weight: 600; font-size: 14px; color: var(--brand-primary); }
+    .quote-biz { font-size: 13px; color: var(--text-secondary); }
+
+    @media (max-width: 768px) {
+      .proof-grid { grid-template-columns: 1fr; }
+    }
+
+    /* 4. Comparison */
+    .comparison-card {
+      display: flex;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .comp-col { flex: 1; padding: 48px; display: flex; flex-direction: column; }
+    .comp-col.left { background-color: var(--surface-color); border-right: 1px solid var(--border-color); }
+    .comp-col.right { background-color: var(--brand-primary); color: #FFFFFF; }
+    .comp-label { font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 12px; }
+    .comp-col.left .comp-label { color: var(--text-secondary); }
+    .comp-col.right .comp-label { color: rgba(247,245,240,0.45); }
+    .comp-title { font-family: var(--font-display); font-size: 22px; margin-bottom: 32px; line-height: 1.3; }
+    .comp-col.left .comp-title { color: var(--brand-primary); }
+    .comp-list { display: flex; flex-direction: column; gap: 20px; }
+    .comp-list li { display: flex; gap: 12px; font-size: 15px; line-height: 1.5; align-items: flex-start; }
+    .comp-col.left .comp-list li { color: var(--text-primary); }
+    .comp-col.right .comp-list li { color: rgba(247,245,240,0.85); }
+    .comp-icon { flex-shrink: 0; margin-top: 1px; }
+    .comp-icon svg { display: block; }
+    .comp-col.left .comp-icon svg { color: #C0392B; }
+    .comp-col.right .comp-icon svg { color: var(--brand-accent); }
+
+    @media (max-width: 768px) {
+      .comparison-card { flex-direction: column; }
+      .comp-col { padding: 32px 24px; }
+      .comp-col.left { border-right: none; }
+    }
+
+    /* 5. Problem */
+    .problem { background-color: var(--surface-color); }
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .problem-card {
+      background-color: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 32px;
+    }
+    .problem-icon {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(30,48,72,0.07);
+      border-radius: 10px;
+      color: var(--brand-primary);
+    }
+    .problem-icon svg { display: block; }
+    .problem-title { font-family: var(--font-display); font-size: 20px; color: var(--brand-primary); margin-bottom: 12px; line-height: 1.3; }
+    .problem-body { font-size: 15px; color: var(--text-secondary); }
+
+    @media (max-width: 768px) {
+      .problem-grid { grid-template-columns: 1fr; }
+    }
+
+    /* 6. Services */
+    .services-grid {
+      display: grid;
+      /* 4.2: 3-column layout to enable centre-card stagger */
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+    /* 4.2: Push the centre card down to break the rigid grid */
+    .service-card:nth-child(2) {
+      margin-top: 36px;
+    }
+    .service-card {
+      background-color: var(--surface-color);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 36px;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    /* 2.3: Refined card hover — scale + deeper shadow */
+    .service-card:hover {
+      border-color: var(--brand-accent);
+      transform: scale(1.02);
+      box-shadow: 0 12px 40px rgba(30,48,72,0.12);
+    }
+    .service-num { font-weight: 600; font-size: 12px; color: var(--brand-accent); letter-spacing: 0.1em; margin-bottom: 16px; }
+    .service-title { font-family: var(--font-display); font-size: 22px; color: var(--brand-primary); margin-bottom: 12px; }
+    .service-body { font-size: 15px; color: var(--text-secondary); margin-bottom: 24px; flex-grow: 1; }
+    .service-link {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--brand-accent);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: auto;
+    }
+    .service-link span { transition: transform var(--transition); }
+    .service-card:hover .service-link span { transform: translateX(4px); }
+
+    @media (max-width: 768px) {
+      .services-grid { grid-template-columns: 1fr; }
+      /* Reset stagger offset on mobile so cards stack cleanly */
+      .service-card:nth-child(2) { margin-top: 0; }
+    }
+    /* Third card left aligned logic handled implicitly by grid flow without span on large screens */
+
+    /* 7. Pricing */
+    .pricing {
+      background-color: var(--brand-primary);
+      /* 3.1: Matching deep radial gradient for pricing section depth */
+      background-image:
+        radial-gradient(ellipse 70% 50% at 100% 100%, rgba(158,124,63,0.15) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 70% at 0% 0%, rgba(10,20,40,0.6) 0%, transparent 50%);
+      color: #FFFFFF;
+      position: relative;
+      overflow: hidden;
+    }
+    .pricing .eyebrow { color: var(--brand-accent); }
+    .pricing .section-headline { color: #FFFFFF; margin-bottom: 16px; }
+    .pricing-sub { font-size: 16px; color: rgba(247,245,240,0.6); margin-bottom: 48px; max-width: 600px; }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+    .price-card {
+      background-color: rgba(255,255,255,0.05);
+      border: 1px solid rgba(226,222,206,0.15);
+      border-radius: 8px;
+      padding: 32px 28px;
+      position: relative;
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+    /* 2.3: Refined card hover — scale + deeper shadow */
+    .price-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.28);
+    }
+    .price-card.featured {
+      background-color: var(--surface-color);
+      border-color: var(--brand-accent);
+      color: var(--text-primary);
+    }
+    .price-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--brand-accent);
+      color: #FFFFFF;
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .price-tier { font-size: 18px; font-weight: 500; margin-bottom: 12px; }
+    .price-amount { font-family: var(--font-display); font-size: 36px; line-height: 1; margin-bottom: 16px; display: flex; align-items: baseline; gap: 4px; }
+    .price-amount span { font-family: var(--font-ui); font-size: 15px; color: rgba(247,245,240,0.6); }
+    .price-card.featured .price-amount span { color: var(--text-secondary); }
+    .price-desc { font-size: 14px; color: rgba(247,245,240,0.8); margin-bottom: 24px; min-height: 60px; }
+    .price-card.featured .price-desc { color: var(--text-secondary); }
+    .price-features { margin-bottom: 32px; display: flex; flex-direction: column; gap: 12px; }
+    .price-features li { display: flex; gap: 10px; font-size: 14px; align-items: flex-start; }
+    .price-card.featured .price-features li { color: var(--text-primary); }
+    .price-icon { color: var(--brand-accent); flex-shrink: 0; margin-top: 1px; }
+    .price-icon svg { display: block; }
+    .price-card .btn { width: 100%; }
+
+    .pricing-note {
+      background-color: rgba(255,255,255,0.04);
+      border: 1px solid rgba(226,222,206,0.12);
+      border-radius: 8px;
+      padding: 28px 32px;
+      margin-top: 48px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .pricing-note-text {
+      font-size: 14px;
+      color: rgba(247,245,240,0.65);
+      line-height: 1.6;
+    }
+    .pricing-note-text strong {
+      color: rgba(247,245,240,0.9);
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .pricing-grid { grid-template-columns: 1fr; }
+      .price-card.featured { order: -1; margin-bottom: 24px; }
+    }
+
+    /* 8. FAQ */
+    .faq { background-color: var(--surface-color); }
+    .faq-container { max-width: 720px; margin: 0 auto; }
+    .faq-accordion {
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .faq-item { border-bottom: 1px solid var(--border-color); }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-btn {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 24px;
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--brand-primary);
+      text-align: left;
+      transition: background-color var(--transition);
+    }
+    .faq-btn:hover { background-color: var(--bg-color); }
+    .faq-btn.active { color: var(--brand-accent); }
+    .faq-chevron {
+      transition: transform var(--transition);
+      flex-shrink: 0;
+      margin-left: 16px;
+    }
+    .faq-btn.active .faq-chevron { transform: rotate(180deg); }
+    .faq-panel {
+      padding: 0 24px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height var(--transition), padding var(--transition);
+    }
+    .faq-panel.active {
+      padding: 4px 24px 24px;
+      max-height: 500px; /* Large enough to hold content */
+    }
+    .faq-panel-inner {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* 9. Final CTA */
+    .final-cta {
+      background-color: var(--bg-color);
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+    }
+    .final-cta-container { max-width: 620px; margin: 0 auto; }
+    .final-cta .headline { font-size: clamp(28px, 4vw, 40px); color: var(--brand-primary); margin-bottom: 16px; }
+    .final-cta .sub-line { font-size: 17px; color: var(--text-secondary); margin-bottom: 36px; }
+    .cta-form {
+      max-width: 480px;
+      margin: 0 auto;
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .cta-input {
+      flex: 1;
+      height: 50px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 4px;
+      padding: 0 16px;
+      font-family: var(--font-ui);
+      font-size: 15px;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+    .cta-input:focus { border-color: var(--brand-primary); }
+    .cta-form .btn { height: 50px; white-space: nowrap; }
+    .cta-promise { font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; }
+    .cta-alt { font-size: 14px; color: var(--text-secondary); }
+    .cta-alt a { color: var(--brand-accent); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+
+    @media (max-width: 500px) {
+      .cta-form { flex-direction: column; }
+    }
+
+    /* Footer */
+    .footer {
+      background-color: #162438;
+      padding: 40px 24px;
+      color: #FFFFFF;
+      position: relative;
+      overflow: hidden;
+    }
+    .footer-container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+    }
+    .footer-logo { font-family: var(--font-display); font-size: 18px; }
+    .footer-logo .amp { color: var(--brand-accent); }
+    .footer-copy { font-size: 13px; color: rgba(247,245,240,0.4); text-align: center; }
+    .footer-links { display: flex; gap: 16px; }
+    .footer-links a { font-size: 13px; color: rgba(247,245,240,0.45); transition: color var(--transition); }
+    .footer-links a:hover { color: rgba(247,245,240,0.8); }
+
+    @media (max-width: 768px) {
+      .footer-container { flex-direction: column; text-align: center; }
+    }
+
+    /* 4.1: Mobile Sticky CTA */
+    .mobile-cta {
+      display: none;
+    }
+    @media (max-width: 768px) {
+      .mobile-cta {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 200;
+        padding: 12px 20px;
+        padding-bottom: calc(12px + env(safe-area-inset-bottom));
+        background: rgba(30, 48, 72, 0.96);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(158,124,63,0.3);
+        gap: 12px;
+        align-items: center;
+        transform: translateY(100%);
+        transition: transform 0.35s cubic-bezier(0.32, 0, 0.67, 0);
+      }
+      .mobile-cta.is-visible {
+        transform: translateY(0);
+        transition: transform 0.35s cubic-bezier(0.33, 1, 0.68, 1);
+      }
+      .mobile-cta-text {
+        flex: 1;
+        font-size: 13px;
+        color: rgba(247,245,240,0.6);
+        line-height: 1.4;
+      }
+      .mobile-cta-text strong {
+        display: block;
+        font-size: 14px;
+        color: rgba(247,245,240,0.9);
+        font-weight: 600;
+        margin-bottom: 1px;
+      }
+      .mobile-cta .btn {
+        white-space: nowrap;
+        flex-shrink: 0;
+        font-size: 14px;
+        padding: 10px 20px;
+      }
+      /* Nudge page content up so the CTA doesn't cover it */
+      body.mobile-cta-active {
+        padding-bottom: 72px;
+      }
+    }
+
+    /* 2.1: Scroll-triggered reveal base styles */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* Stagger siblings */
+    .reveal-stagger > * {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .reveal-stagger.is-visible > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0s; }
+    .reveal-stagger.is-visible > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
+    .reveal-stagger.is-visible > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
+
+    /* 3.4: Mobile readability — line-heights and font sizes */
+    @media (max-width: 768px) {
+      body { line-height: 1.72; }
+      .headline { letter-spacing: -0.5px; }
+      .section-headline { line-height: 1.25; margin-bottom: 32px; }
+      .hero .sub-line { font-size: 17px; line-height: 1.7; }
+      .quote-text { font-size: 15px; line-height: 1.7; }
+      .problem-body { font-size: 14px; line-height: 1.75; }
+      .service-body { font-size: 14px; line-height: 1.75; }
+      .faq-panel-inner { font-size: 14px; line-height: 1.75; }
+      .price-desc { font-size: 13px; line-height: 1.65; }
+      .comp-list li { font-size: 14px; line-height: 1.6; }
+      .hero-stats { gap: 32px; }
+      .stat-val { font-size: 30px; }
+      .stat-label { font-size: 12px; }
+    }
+
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .reveal, .reveal-stagger > * { opacity: 1 !important; transform: none !important; }
+    }
+
+    /* Hero Trust Badges */
+    .hero-trust-badges {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: rgba(247,245,240,0.65);
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .hero-trust-badges .stars {
+      display: flex;
+      gap: 2px;
+    }
+    .hero-trust-badges .divider {
+      color: rgba(247,245,240,0.2);
+    }
+
+    /* Chat Widget */
+    .chat-fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: var(--brand-primary);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(30,48,72,0.25);
+      z-index: 1000;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+      border: none;
+    }
+    .chat-fab:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(30,48,72,0.35);
+    }
+    .chat-widget {
+      position: fixed;
+      bottom: 100px;
+      right: 24px;
+      width: 360px;
+      background: #F7F5F0;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+    }
+    .chat-widget.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+    .chat-header {
+      background-color: var(--brand-primary);
+      color: #FFFFFF;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      font-size: 15px;
+    }
+    .chat-close {
+      color: #FFFFFF;
+      font-size: 24px;
+      line-height: 1;
+      opacity: 0.8;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .chat-close:hover { opacity: 1; }
+    .chat-body {
+      padding: 20px;
+      background: #FFFFFF;
+      min-height: 200px;
+    }
+    .chat-message {
+      background: #F7F5F0;
+      padding: 14px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      color: var(--text-primary);
+      line-height: 1.5;
+    }
+    .chat-footer {
+      padding: 16px;
+      background: #FFFFFF;
+      border-top: 1px solid var(--border-color);
+    }
+    .chat-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      font-size: 14px;
+      font-family: var(--font-ui);
+      outline: none;
+      background: var(--bg-color);
+    }
+    .chat-disclaimer {
+      font-size: 11px;
+      color: var(--text-secondary);
+      text-align: center;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Section 1: Nav -->
+  <nav class="nav" id="nav">
+    <div class="container nav-container">
+      <a href="#" class="logo">Ledger <span class="amp">&amp;</span> Co. CPA</a>
+      <div class="nav-links" id="nav-links">
+        <a href="#services">Services</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="nav-right">
+        <a href="tel:5125550198" class="btn btn-primary" style="padding: 10px 20px;">
+          <svg style="margin-right:8px;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+          (512) 555-0198
+        </a>
+        <a href="#contact" class="btn btn-brand" style="padding: 10px 20px;">Book a Consultation</a>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Section 2: Hero -->
+  <header class="hero">
+    <div class="hero-bg-circles"></div>
+    <div class="container">
+      <span class="eyebrow reveal">Austin, TX &middot; Small Business CPA</span>
+      <h1 class="headline reveal">Your CPA should be there after April too.</h1>
+      <p class="sub-line reveal">Ledger &amp; Co. works with Austin small business owners year-round - on tax strategy, clean books, and the financial decisions that actually matter to your bottom line.</p>
+      
+      <div class="hero-actions reveal">
+        <a href="#contact" class="btn btn-primary">Book a free call</a>
+        <a href="#services" class="btn btn-ghost-light">See how we work</a>
+      </div>
+      <div class="hero-trust-badges reveal">
+        <div class="stars">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" color="var(--brand-accent)"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" color="var(--brand-accent)"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" color="var(--brand-accent)"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" color="var(--brand-accent)"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" color="var(--brand-accent)"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+        </div>
+        <span>Over 100+ five star reviews</span>
+        <span class="divider">|</span>
+        <span>Trusted by clients in 27+ states</span>
+        <span class="divider">|</span>
+        <span><span style="color:var(--brand-accent); margin-right: 4px;">&#10003;</span>Registered in all 50 states</span>
+      </div>
+
+      <div class="hero-stats reveal-stagger">
+        <div class="stat">
+          <span class="stat-val">11+</span>
+          <span class="stat-label">Years serving Austin small business owners</span>
+        </div>
+        <div class="stat">
+          <span class="stat-val">$2.4M</span>
+          <span class="stat-label">In tax savings identified for clients last year</span>
+        </div>
+        <div class="stat">
+          <span class="stat-val">94%</span>
+          <span class="stat-label">Client retention after year one</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Section 3: Social Proof Strip -->
+  <section class="section social-proof">
+    <div class="container">
+      <span class="eyebrow">Client results</span>
+      <h2 class="section-headline reveal">Real outcomes from real business owners.</h2>
+      
+      <div class="proof-grid reveal-stagger">
+        <div class="proof-card featured">
+          <div class="quote-mark">&ldquo;</div>
+          <p class="quote-text">I'd been overpaying for three years and had no clue. Ledger &amp; Co. found deductions my previous CPA had missed every single filing cycle. First year with them, we got $18,400 back.</p>
+          <div class="quote-outcome">Saved $18,400 in year one of switching.</div>
+          <div class="quote-footer">
+            <img src="headshot_marcus.jpg" alt="Marcus T." class="quote-headshot">
+            <div class="quote-meta">
+              <div class="quote-author">Marcus T.</div>
+              <div class="quote-biz">Residential painting company, 14 employees</div>
+            </div>
+          </div>
+        </div>
+        <div class="proof-card">
+          <div class="quote-mark">&ldquo;</div>
+          <p class="quote-text">I had a big hiring decision to make in September. I emailed my old CPA and waited two weeks. I called Ledger and had an answer the same afternoon. That's the difference.</p>
+          <div class="quote-footer">
+            <img src="headshot_priya.jpg" alt="Priya S." class="quote-headshot">
+            <div class="quote-meta">
+              <div class="quote-author">Priya S.</div>
+              <div class="quote-biz">Digital marketing agency, 8 employees</div>
+            </div>
+          </div>
+        </div>
+        <div class="proof-card">
+          <div class="quote-mark">&ldquo;</div>
+          <p class="quote-text">My books were a total mess when I came to them. Years of catch-up work. They didn't flinch - just got it done. I actually understand my numbers now for the first time.</p>
+          <div class="quote-footer">
+            <div class="quote-headshot-placeholder">J</div>
+            <div class="quote-meta">
+              <div class="quote-author">James R.</div>
+              <div class="quote-biz">HVAC service company, 6 employees</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Comparison Block -->
+  <section class="section">
+    <div class="container">
+      <span class="eyebrow">The difference</span>
+      <h2 class="section-headline reveal">Most CPAs are reactive. We're built to be proactive.</h2>
+      
+      <div class="comparison-card reveal">
+        <div class="comp-col left">
+          <div class="comp-label">The typical CPA firm</div>
+          <h3 class="comp-title">Shows up at tax time. Gone by May.</h3>
+          <ul class="comp-list">
+            <li><span class="comp-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> Calls you in January asking for documents you forgot about</li>
+            <li><span class="comp-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> Files your return. You hear from them next year.</li>
+            <li><span class="comp-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> Discovers missed deductions after it is too late to act</li>
+            <li><span class="comp-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> Charges a billable hour to answer a quick mid-year question</li>
+            <li><span class="comp-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span> Has no idea what your business actually looks like day to day</li>
+          </ul>
+        </div>
+        <div class="comp-col right">
+          <div class="comp-label">Ledger &amp; Co.</div>
+          <h3 class="comp-title">In your corner every month of the year.</h3>
+          <ul class="comp-list">
+            <li><span class="comp-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Monthly check-ins so nothing catches you off guard in April</li>
+            <li><span class="comp-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Proactive tax strategy built around your actual numbers</li>
+            <li><span class="comp-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Catches deductions and savings opportunities throughout the year</li>
+            <li><span class="comp-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Quick questions answered within one business day, no extra charge</li>
+            <li><span class="comp-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> We know your business, your goals, and your margins</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: Problem Section -->
+  <section id="problem" class="section problem">
+    <div class="container">
+      <span class="eyebrow">Sound familiar?</span>
+      <h2 class="section-headline reveal">Most small business owners feel this way before they find the right CPA.</h2>
+      
+      <div class="problem-grid reveal-stagger">
+        <div class="problem-card">
+          <!-- Bell-off icon: CPA disappears after filing -->
+          <div class="problem-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13.73 21a2 2 0 0 1-3.46 0"/><path d="M18.63 13A17.89 17.89 0 0 1 18 8"/><path d="M6.26 6.26A5.86 5.86 0 0 0 6 8c0 7-3 9-3 9h14"/><path d="M18 8a6 6 0 0 0-9.33-5"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </div>
+          <h3 class="problem-title">You only hear from your CPA when they need something from you.</h3>
+          <p class="problem-body">Every January it's the same: a request for documents you scrambled to find, a bill you weren't expecting, and radio silence for another eleven months. A CPA who disappears after filing is not an advisor. They're a vendor.</p>
+        </div>
+        <div class="problem-card">
+          <!-- Eye-off icon: no financial visibility -->
+          <div class="problem-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </div>
+          <h3 class="problem-title">You don't actually know if your business made money last month.</h3>
+          <p class="problem-body">There's cash in the account, but you can't say with confidence what your margins are, whether you can afford to hire, or what you owe in taxes at the end of the quarter. That's not a cash flow problem. That's a visibility problem.</p>
+        </div>
+        <div class="problem-card">
+          <!-- Alert-triangle icon: IRS stress -->
+          <div class="problem-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <h3 class="problem-title">You're one IRS letter away from a panic spiral.</h3>
+          <p class="problem-body">When you don't have someone who knows your books inside out, every piece of government mail feels like a threat. Most IRS notices are minor. But without a CPA who picks up the phone, even a minor notice can cost you days of stress.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 6: Services -->
+  <section id="services" class="section">
+    <div class="container">
+      <span class="eyebrow">What we do</span>
+      <h2 class="section-headline reveal" style="margin-bottom:16px;">Everything you need to run your business with clear numbers.</h2>
+      <p class="reveal" style="font-size:16px; color:var(--text-secondary); margin-bottom:48px;">We handle the financial side so you can focus on the work you're actually good at.</p>
+      
+      <div class="services-grid reveal-stagger">
+        <div class="service-card">
+          <div class="service-num">01</div>
+          <h3 class="service-title">Year-Round Tax Strategy</h3>
+          <p class="service-body">We plan throughout the year so you never pay more than you owe - and you know exactly what's coming before it arrives. No April surprises, no scrambling.</p>
+          <a href="#contact" class="service-link">Learn more <span>&rarr;</span></a>
+        </div>
+        <div class="service-card">
+          <div class="service-num">02</div>
+          <h3 class="service-title">Monthly Bookkeeping</h3>
+          <p class="service-body">Clean, reconciled books every month, plus a plain-English summary of what your numbers actually mean. Know your cash position, your margins, and your runway at any point in the year.</p>
+          <a href="#contact" class="service-link">Learn more <span>&rarr;</span></a>
+        </div>
+        <div class="service-card">
+          <div class="service-num">03</div>
+          <h3 class="service-title">Payroll and Tax Compliance</h3>
+          <p class="service-body">We run payroll on time and handle all the associated filings, so you never miss a deadline or get hit with a penalty for something you didn't know was due.</p>
+          <a href="#contact" class="service-link">Learn more <span>&rarr;</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 7: Pricing Signal -->
+  <section id="pricing" class="section pricing">
+    <div class="container">
+      <span class="eyebrow">Transparent pricing</span>
+      <h2 class="section-headline">Flat monthly fees. You'll always know what you're paying.</h2>
+      <p class="pricing-sub">No hourly billing, no surprise invoices. Pricing is based on your transaction volume, number of employees, and which services you need. Here's where most clients land.</p>
+      
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="price-tier">Essentials</div>
+          <div class="price-amount">$350 <span>/month</span></div>
+          <div class="price-desc">Solo operators and early-stage businesses with straightforward financials.</div>
+          <ul class="price-features">
+            <li><span class="price-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Monthly bookkeeping (up to 100 transactions)</li>
+            <li><span class="price-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Annual tax preparation and filing</li>
+            <li><span class="price-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Quarterly estimated tax calculations</li>
+            <li><span class="price-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Email support, 2-business-day response</li>
+          </ul>
+          <a href="#contact" class="btn btn-ghost-light">Get started</a>
+        </div>
+        
+        <div class="price-card featured">
+          <div class="price-badge">Most popular</div>
+          <div class="price-tier">Growth</div>
+          <div class="price-amount">$650 <span>/month</span></div>
+          <div class="price-desc">Established businesses with employees, payroll, and real financial decisions to make every month.</div>
+          <ul class="price-features">
+            <li><span class="price-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Monthly bookkeeping (up to 300 transactions)</li>
+            <li><span class="price-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Year-round tax strategy and preparation</li>
+            <li><span class="price-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Payroll for up to 10 employees</li>
+            <li><span class="price-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Monthly financial summary call</li>
+            <li><span class="price-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Same-day email and phone support</li>
+          </ul>
+          <a href="#contact" class="btn btn-primary">Book a free call</a>
+        </div>
+        
+        <div class="price-card">
+          <div class="price-tier">Advisory</div>
+          <div class="price-amount">Custom</div>
+          <div class="price-desc">Businesses with more complex needs: multiple entities, S-Corp elections, or owners who want on-call access to a financial advisor who already knows their numbers.</div>
+          <ul class="price-features">
+            <li><span class="price-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Everything in Growth</li>
+            <li><span class="price-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Payroll for unlimited employees</li>
+            <li><span class="price-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> On-call advisory for big decisions</li>
+            <li><span class="price-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Multi-entity and S-Corp tax strategy</li>
+            <li><span class="price-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Dedicated point of contact</li>
+          </ul>
+          <a href="#contact" class="btn btn-ghost-light">Request a custom quote</a>
+        </div>
+      </div>
+      
+      <div class="pricing-note">
+        <div style="font-size:20px;">&#128161;</div>
+        <div class="pricing-note-text">
+          <strong>What affects your price:</strong> the number of transactions we reconcile each month, how many people are on payroll, the complexity of your business structure (LLC, S-Corp, or multiple entities), and whether you need ongoing advisory support. We'll give you an exact number on the first call. No obligation, no pressure.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 8: FAQ -->
+  <section id="faq" class="section faq">
+    <div class="container faq-container">
+      <span class="eyebrow" style="text-align:center;">Common questions</span>
+      <h2 class="section-headline" style="text-align:center;">The things business owners actually want to know before signing on.</h2>
+      
+      <div class="faq-accordion">
+        <div class="faq-item">
+          <button class="faq-btn">
+            My books are a complete mess. Is that going to be a problem?
+            <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-panel-inner">Not at all. It's one of the most common situations we walk into. We'll start with a one-time cleanup to get your books current and accurate, then keep them that way going forward. We don't care how things got here. We care about getting you to a clean starting point as fast as possible.</div>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <button class="faq-btn">
+            How do I switch from my current CPA without it being awkward?
+            <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-panel-inner">We handle the transition for you. Once you sign on, we request your prior-year returns and any documents directly from your previous firm. You don't have to make any uncomfortable calls. Most clients are fully onboarded within two weeks of signing.</div>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <button class="faq-btn">
+            What does onboarding actually look like week by week?
+            <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-panel-inner">Week one is a 45-minute intake call where we learn your business, your goals, and your current financial setup. Week two, we connect to your accounting software (or set one up fresh), collect your prior returns, and start reconciling your books. By week three, you have clean financials and a clear picture of where you stand. After that, we settle into a steady monthly rhythm.</div>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <button class="faq-btn">
+            How fast do you respond when I have a question?
+            <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-panel-inner">Growth and Advisory clients get same-day responses during business hours. Essentials clients receive a reply within two business days. If something urgent comes up regardless of your plan - an IRS notice, a lender requesting financials, a decision you need to make today - we prioritize it.</div>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <button class="faq-btn">
+            I'm based outside Austin. Can you still work with me?
+            <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-panel-inner">Yes. About a third of our clients are based outside Austin, across Texas and in other states. Everything runs through a secure online portal and video calls, so your location doesn't affect what we can do for you.</div>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <button class="faq-btn">
+            My business is small. Am I too small to be a good fit?
+            <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-panel-inner">We work with businesses from solo operators up to around 50 employees. Some of our strongest client relationships started when a business had two people and $150,000 in revenue. The earlier you get your financial foundation right, the better your outcomes as you grow.</div>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <button class="faq-btn">
+            What accounting software do you use?
+            <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-panel-inner">We primarily work in QuickBooks Online and Xero for bookkeeping, and Gusto for payroll. If you're already on one of those, we connect directly. If you're on something else or still using spreadsheets, we'll migrate you to whichever platform fits your business - included in onboarding, no extra charge.</div>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <button class="faq-btn">
+            What if it's not the right fit? Can I cancel?
+            <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-panel-inner">Yes, without any hassle. All plans are month-to-month after the first 90 days, which covers the onboarding and initial cleanup work. After that, cancel with 30 days notice and we transfer everything to you cleanly - your files, your data, all of it. Nothing held hostage.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 9: Final CTA -->
+  <section id="contact" class="section final-cta">
+    <div class="container final-cta-container">
+      <span class="eyebrow">Let's talk</span>
+      <h2 class="headline">Ready to stop guessing and start knowing?</h2>
+      <p class="sub-line">Drop your email and we'll reach out to schedule a free 30-minute call. We'll tell you exactly what we'd do for your business and what it would cost. No pitch, no pressure.</p>
+      
+      <div class="cta-form">
+        <input type="email" class="cta-input" placeholder="Your email address" aria-label="Email address">
+        <button type="button" class="btn btn-primary">Book a free call</button>
+      </div>
+      
+      <p class="cta-promise"><span style="color:var(--brand-accent)">&#10003;</span> We respond within one business day. Usually within 4 hours.</p>
+      <p class="cta-alt">Prefer to call? <a href="#">(512) 555-0198</a> &middot; Or schedule directly on <a href="#">Calendly</a>.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-logo">Ledger <span class="amp">&amp;</span> Co. CPA</div>
+      <div class="footer-copy">&copy; 2026 Ledger &amp; Co. CPA, LLC &middot; Austin, TX &middot; Licensed CPA Firm</div>
+      <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 4.1: Mobile Sticky CTA -->
+  <div class="mobile-cta" id="mobile-cta">
+    <div class="mobile-cta-text">
+      <strong>Ready to talk?</strong>
+      Free 30-min consultation.
+    </div>
+    <a href="#contact" class="btn btn-primary">Book a call</a>
+  </div>
+
+  <script>
+    // Sticky Nav
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 12) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+
+    // Mobile Menu
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+
+    // FAQ Accordion
+    const faqBtns = document.querySelectorAll('.faq-btn');
+    faqBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const panel = btn.nextElementSibling;
+        const isActive = btn.classList.contains('active');
+        
+        // Close all
+        document.querySelectorAll('.faq-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.faq-panel').forEach(p => p.classList.remove('active'));
+        
+        // If it wasn't active, open it
+        if (!isActive) {
+          btn.classList.add('active');
+          panel.classList.add('active');
+        }
+      });
+    });
+
+    // 2.1: Scroll-Triggered Reveals
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => {
+      revealObserver.observe(el);
+    });
+
+    // 4.1: Mobile Sticky CTA Visibility
+    const mobileCta = document.getElementById('mobile-cta');
+    if (mobileCta) {
+      const heroSection = document.querySelector('.hero');
+      const ctaObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) {
+            mobileCta.classList.add('is-visible');
+            document.body.classList.add('mobile-cta-active');
+          } else {
+            mobileCta.classList.remove('is-visible');
+            document.body.classList.remove('mobile-cta-active');
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      if (heroSection) {
+        ctaObserver.observe(heroSection);
+      }
+    }
+
+    // Chat Widget Toggle
+    const chatFab = document.getElementById('chat-fab');
+    const chatWidget = document.getElementById('chat-widget');
+    const chatClose = document.getElementById('chat-close');
+    if (chatFab && chatWidget && chatClose) {
+      chatFab.addEventListener('click', () => {
+        chatWidget.classList.add('active');
+      });
+      chatClose.addEventListener('click', () => {
+        chatWidget.classList.remove('active');
+      });
+    }
+  </script>
+
+  <!-- Chat Widget HTML -->
+  <div class="chat-widget" id="chat-widget">
+    <div class="chat-header">
+      <span style="display:flex; align-items:center; gap:8px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        Chat with us
+      </span>
+      <button class="chat-close" id="chat-close" aria-label="Close chat">&times;</button>
+    </div>
+    <div class="chat-body">
+      <div class="chat-message">
+        Hello and thank you for reaching out to Ledger &amp; Co. Please leave your full name, email and detailed question for us to respond. We monitor the chat throughout the day, but responses may not be immediate.
+      </div>
+    </div>
+    <div class="chat-footer">
+      <input type="text" class="chat-input" placeholder="Ask me anything..." disabled>
+      <div class="chat-disclaimer">Spam protection enabled; AI-generated content may be inaccurate.</div>
+    </div>
+  </div>
+  <button class="chat-fab" id="chat-fab" aria-label="Open chat">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+  </button>
+</body>
+</html>
